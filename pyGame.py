@@ -21,8 +21,8 @@ walkLeft = [pygame.image.load('left1.png'),
             pygame.image.load('left5.png')]
 
 bg = pygame.image.load('back.jpg')
-playerStand = pygame.image.load('stand_left.png')
-
+playerStand_Left = pygame.image.load('stand_left.png')
+playerStand_Right = pygame.image.load('stand_right.png')
 clock = pygame.time.Clock()
 
 x = 50
@@ -35,6 +35,8 @@ isJump = False
 jumpCount = 10
 
 left = False
+standLeft = False
+standRight = True
 right = False
 animCount = 0
 
@@ -52,8 +54,10 @@ def drawWindow():
     elif right:
         win.blit(walkRight[animCount // 5], (x, y))
         animCount += 1
+    elif standLeft:
+        win.blit(playerStand_Left, (x, y))
     else:
-        win.blit(playerStand, (x, y))
+        win.blit(playerStand_Right, (x, y))
     pygame.display.update()
 
 
@@ -71,10 +75,14 @@ while run:
         x -= speed
         left = True
         right = False
+        standLeft = True
+        standRight = False
     elif keys[pygame.K_RIGHT] and x < win_width - width - 5:
         x += speed
         left = False
         right = True
+        standLeft = False
+        standRight = True
     else:
         left = False
         right = False
