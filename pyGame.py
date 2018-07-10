@@ -36,7 +36,6 @@ jumpCount = 10
 
 left = False
 standLeft = False
-standRight = True
 right = False
 animCount = 0
 
@@ -96,7 +95,7 @@ while run:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_f]:
-        if standRight == True:
+        if standLeft == False:
             facing = 1
         else:
             facing = -1
@@ -108,13 +107,11 @@ while run:
         left = True
         right = False
         standLeft = True
-        standRight = False
     elif keys[pygame.K_RIGHT] and x < win_width - width - 5:
         x += speed
         left = False
         right = True
         standLeft = False
-        standRight = True
     else:
         left = False
         right = False
