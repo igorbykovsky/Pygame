@@ -41,6 +41,18 @@ right = False
 animCount = 0
 
 
+class bullet():
+    def __init__(self, x, y, rad, color, facing):
+        self.x = x
+        self.y = y
+        self.rad = rad
+        self.color = color
+        self.facing = facing
+        self.vel = 8 * facing
+    def draw(self, win):
+        pygame.draw.circle(win, self.color, (self.x, self.y), self.rad)
+
+
 def drawWindow():
     global animCount
     win.blit(bg, (0, 0))
@@ -58,10 +70,15 @@ def drawWindow():
         win.blit(playerStand_Left, (x, y))
     else:
         win.blit(playerStand_Right, (x, y))
+
+    for bull in bullets:
+        bull.draw(win)
+
     pygame.display.update()
 
 
 run = True
+bullets = []
 while run:
     clock.tick(30)
     pygame.time.delay(30)
@@ -70,7 +87,22 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
+    for bul in bullets:
+        if bul.x < win_height and bul.x > 0:
+            bul.x += bul.vel
+        else:
+            bullets.pop(bullets.index(bul))
+
     keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_f]:
+        if standRight == True:
+            facing = 1
+        else:
+            facing = -1
+        if len(bullets) < 5:
+            bullets.append(bullet(round(x + width // 2),
+                                  round(y + height // 2), 5, (0, 255, 0), facing))
     if keys[pygame.K_LEFT] and x > 5:
         x -= speed
         left = True
